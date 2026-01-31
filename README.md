@@ -88,9 +88,9 @@ src/
 
 ## Team
 
- - [Eshupriye Belgotra] (https://www.linkedin.com/in/eshu-belgotra/)
- - [Anshit Kuda] (https://www.linkedin.com/in/anshit-kuda-580624214/)
- - [Chirag Sood] (https://www.linkedin.com/in/chiragsd13/)
+- [Eshupriye Belgotra](https://www.linkedin.com/in/eshu-belgotra/)
+- [Anshit Kuda](https://www.linkedin.com/in/anshit-kuda-580624214/)
+- [Chirag Sood](https://www.linkedin.com/in/chiragsd13/)
 
 ---
 
