@@ -20,8 +20,16 @@ export function DashboardNavbar({ activeTab: externalActiveTab, onNavigate, onLo
   const [activeTab, setActiveTab] = useState(externalActiveTab || 'Dashboard');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const tabs = ['Dashboard', 'Inventory', 'Donations', 'Recipes', 'Routes'];
+
+  // Mock notifications
+  const notifications = [
+    { id: '1', text: 'SaveMart donated 20 lbs of produce', time: '2h ago', unread: true },
+    { id: '2', text: 'New recipe unlocked: Vegetable Stew', time: '5h ago', unread: true },
+    { id: '3', text: '3 items expiring in 2 days', time: '1d ago', unread: false },
+  ];
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -76,15 +84,54 @@ export function DashboardNavbar({ activeTab: externalActiveTab, onNavigate, onLo
           {/* Right Side - Notifications & Profile */}
           <div className="flex items-center gap-2 sm:gap-4">
             {/* Notification Bell */}
-            <button className="relative min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-muted transition-colors">
-              <Bell className="w-5 h-5 text-foreground" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => {
+                  setShowNotifications(!showNotifications);
+                  setShowProfileMenu(false);
+                }}
+                className="relative min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-muted transition-colors"
+              >
+                <Bell className="w-5 h-5 text-foreground" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+              </button>
+
+              {/* Notifications Dropdown */}
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-80 bg-card border border-border rounded-xl shadow-lg py-2 z-50">
+                  <div className="px-4 py-2 border-b border-border">
+                    <h3 className="font-medium">Notifications</h3>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {notifications.map((notif) => (
+                      <button
+                        key={notif.id}
+                        onClick={() => setShowNotifications(false)}
+                        className={`w-full px-4 py-3 text-left hover:bg-muted transition-colors ${
+                          notif.unread ? 'bg-primary/5' : ''
+                        }`}
+                      >
+                        <p className="text-sm">{notif.text}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{notif.time}</p>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="px-4 py-2 border-t border-border">
+                    <button className="text-sm text-primary hover:text-primary/80 font-medium">
+                      View all notifications
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Profile Avatar */}
             <div className="relative">
               <button
-                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                onClick={() => {
+                  setShowProfileMenu(!showProfileMenu);
+                  setShowNotifications(false);
+                }}
                 className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:opacity-80 transition-opacity"
               >
                 <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-medium text-sm">

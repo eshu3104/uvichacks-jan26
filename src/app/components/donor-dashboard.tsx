@@ -165,7 +165,10 @@ export function DonorDashboard({ onLogout }: DonorDashboardProps) {
 
             {/* Recent Donations */}
             <div>
-              <RecentDonationsTable donations={recentDonations} />
+              <RecentDonationsTable 
+                donations={recentDonations} 
+                onViewAll={() => setCurrentView('tracking')}
+              />
             </div>
           </div>
 

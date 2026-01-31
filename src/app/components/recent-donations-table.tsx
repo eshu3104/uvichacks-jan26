@@ -11,9 +11,10 @@ interface Donation {
 
 interface RecentDonationsTableProps {
   donations: Donation[];
+  onViewAll?: () => void;
 }
 
-export function RecentDonationsTable({ donations }: RecentDonationsTableProps) {
+export function RecentDonationsTable({ donations, onViewAll }: RecentDonationsTableProps) {
   const getStatusDisplay = (status: Donation['status']) => {
     switch (status) {
       case 'accepted':
@@ -87,9 +88,12 @@ export function RecentDonationsTable({ donations }: RecentDonationsTableProps) {
       </div>
 
       <div className="p-4 bg-muted/10 border-t border-border">
-        <a href="#all-donations" className="text-sm text-primary hover:text-primary/80 font-medium transition-colors">
+        <button 
+          onClick={onViewAll}
+          className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+        >
           View all donations →
-        </a>
+        </button>
       </div>
     </div>
   );

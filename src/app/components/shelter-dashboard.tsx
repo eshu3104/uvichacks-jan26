@@ -17,6 +17,7 @@ interface ShelterDashboardProps {
 
 export function ShelterDashboard({ onLogout }: ShelterDashboardProps) {
   const [currentView, setCurrentView] = useState<'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes'>('dashboard');
+  const [showClearanceModal, setShowClearanceModal] = useState(false);
 
   if (currentView === 'donations') {
     return (
@@ -138,6 +139,7 @@ export function ShelterDashboard({ onLogout }: ShelterDashboardProps) {
                 description="12 items from SaveMart under $2"
                 iconBg="bg-accent/10"
                 iconColor="text-accent-foreground"
+                onClick={() => setShowClearanceModal(true)}
               />
               
               <QuickActionCard
@@ -181,6 +183,49 @@ export function ShelterDashboard({ onLogout }: ShelterDashboardProps) {
 
       {/* Mobile Bottom Navigation */}
       <MobileBottomNav activeView={currentView} onNavigate={setCurrentView} />
+
+      {/* Clearance Deals Modal */}
+      {showClearanceModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-card rounded-[16px] max-w-lg w-full max-h-[80vh] overflow-hidden shadow-xl">
+            <div className="p-6 border-b border-border flex items-center justify-between">
+              <h2 className="text-xl font-medium">Clearance Deals from SaveMart</h2>
+              <button 
+                onClick={() => setShowClearanceModal(false)}
+                className="p-2 hover:bg-muted rounded-lg transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6 space-y-4 max-h-96 overflow-y-auto">
+              {[
+                { name: 'Whole Wheat Bread (6 loaves)', price: '$1.50', expires: 'Tomorrow' },
+                { name: 'Greek Yogurt (12 cups)', price: '$1.99', expires: '2 days' },
+                { name: 'Bananas (5 lbs)', price: '$0.99', expires: 'Today' },
+                { name: 'Rotisserie Chicken (3)', price: '$1.75 each', expires: 'Today' },
+                { name: 'Bagged Salad Mix (8 bags)', price: '$1.25', expires: 'Tomorrow' },
+                { name: 'Milk (4 gallons)', price: '$1.50', expires: '3 days' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                  <div>
+                    <p className="font-medium">{item.name}</p>
+                    <p className="text-sm text-muted-foreground">Expires: {item.expires}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-medium text-secondary">{item.price}</p>
+                    <button className="text-xs text-primary hover:underline">Add to list</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 border-t border-border bg-muted/20">
+              <p className="text-sm text-muted-foreground text-center">
+                Prices valid while supplies last. Visit SaveMart at 456 Market Ave.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

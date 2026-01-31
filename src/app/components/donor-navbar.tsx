@@ -11,8 +11,16 @@ interface DonorNavbarProps {
 export function DonorNavbar({ activeTab = 'Home', onTabChange, onLogout }: DonorNavbarProps) {
   const [currentTab, setCurrentTab] = useState(activeTab);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const tabs = ['Home', 'My Donations', 'Track Pickups'];
+
+  // Mock notifications
+  const notifications = [
+    { id: '1', text: 'Hope Kitchen accepted your donation', time: '2h ago', unread: true },
+    { id: '2', text: 'Pickup scheduled for tomorrow at 2 PM', time: '5h ago', unread: true },
+    { id: '3', text: 'Thank you! Your donation fed 50 people', time: '1d ago', unread: false },
+  ];
 
   const handleTabClick = (tab: string) => {
     setCurrentTab(tab);
@@ -55,15 +63,54 @@ export function DonorNavbar({ activeTab = 'Home', onTabChange, onLogout }: Donor
           {/* Right Side - Notifications & Profile */}
           <div className="flex items-center gap-4">
             {/* Notification Bell */}
-            <button className="relative p-2 rounded-full hover:bg-muted transition-colors">
-              <Bell className="w-5 h-5 text-foreground" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-secondary rounded-full"></span>
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => {
+                  setShowNotifications(!showNotifications);
+                  setShowProfileMenu(false);
+                }}
+                className="relative p-2 rounded-full hover:bg-muted transition-colors"
+              >
+                <Bell className="w-5 h-5 text-foreground" />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-secondary rounded-full"></span>
+              </button>
+
+              {/* Notifications Dropdown */}
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-80 bg-card border border-border rounded-[14px] shadow-lg py-2 z-50">
+                  <div className="px-4 py-2 border-b border-border">
+                    <h3 className="font-medium">Notifications</h3>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {notifications.map((notif) => (
+                      <button
+                        key={notif.id}
+                        onClick={() => setShowNotifications(false)}
+                        className={`w-full px-4 py-3 text-left hover:bg-muted transition-colors ${
+                          notif.unread ? 'bg-secondary/5' : ''
+                        }`}
+                      >
+                        <p className="text-sm">{notif.text}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{notif.time}</p>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="px-4 py-2 border-t border-border">
+                    <button className="text-sm text-primary hover:text-primary/80 font-medium">
+                      View all notifications
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Profile Avatar */}
             <div className="relative">
               <button
-                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                onClick={() => {
+                  setShowProfileMenu(!showProfileMenu);
+                  setShowNotifications(false);
+                }}
                 className="flex items-center gap-2 hover:opacity-80 transition-opacity"
               >
                 <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-medium">
