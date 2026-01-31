@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Bell } from 'lucide-react';
+import { Bell, LogOut, User, Building, FileText } from 'lucide-react';
 import { BreadBridgeLogo } from '@/app/components/logo';
 
 interface DonorNavbarProps {
   activeTab?: string;
   onTabChange?: (tab: string) => void;
+  onLogout?: () => void;
 }
 
-export function DonorNavbar({ activeTab = 'Home', onTabChange }: DonorNavbarProps) {
+export function DonorNavbar({ activeTab = 'Home', onTabChange, onLogout }: DonorNavbarProps) {
   const [currentTab, setCurrentTab] = useState(activeTab);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -73,19 +74,38 @@ export function DonorNavbar({ activeTab = 'Home', onTabChange }: DonorNavbarProp
               {/* Dropdown Menu */}
               {showProfileMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-[14px] shadow-lg py-2">
-                  <a href="#profile" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                  <button 
+                    onClick={() => setShowProfileMenu(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors text-left"
+                  >
+                    <User className="w-4 h-4" />
                     Profile Settings
-                  </a>
-                  <a href="#business" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                  </button>
+                  <button 
+                    onClick={() => setShowProfileMenu(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors text-left"
+                  >
+                    <Building className="w-4 h-4" />
                     Business Info
-                  </a>
-                  <a href="#tax" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                  </button>
+                  <button 
+                    onClick={() => setShowProfileMenu(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors text-left"
+                  >
+                    <FileText className="w-4 h-4" />
                     Tax Documents
-                  </a>
+                  </button>
                   <hr className="my-2 border-border" />
-                  <a href="#logout" className="block px-4 py-2 text-sm text-destructive hover:bg-muted transition-colors">
+                  <button 
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      if (onLogout) onLogout();
+                    }}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-destructive hover:bg-muted transition-colors text-left"
+                  >
+                    <LogOut className="w-4 h-4" />
                     Sign Out
-                  </a>
+                  </button>
                 </div>
               )}
             </div>

@@ -11,13 +11,17 @@ import { RecipePage } from '@/app/components/recipe-page';
 import { PickupRoutePlanner } from '@/app/components/pickup-route-planner';
 import { MobileBottomNav } from '@/app/components/mobile-bottom-nav';
 
-export function ShelterDashboard() {
+interface ShelterDashboardProps {
+  onLogout?: () => void;
+}
+
+export function ShelterDashboard({ onLogout }: ShelterDashboardProps) {
   const [currentView, setCurrentView] = useState<'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes'>('dashboard');
 
   if (currentView === 'donations') {
     return (
       <>
-        <AvailableDonationsPage />
+        <AvailableDonationsPage onNavigate={setCurrentView} onLogout={onLogout} />
         <MobileBottomNav activeView={currentView} onNavigate={setCurrentView} />
       </>
     );
@@ -26,7 +30,7 @@ export function ShelterDashboard() {
   if (currentView === 'inventory') {
     return (
       <>
-        <InventoryPage />
+        <InventoryPage onNavigate={setCurrentView} onLogout={onLogout} />
         <MobileBottomNav activeView={currentView} onNavigate={setCurrentView} />
       </>
     );
@@ -35,7 +39,7 @@ export function ShelterDashboard() {
   if (currentView === 'recipes') {
     return (
       <>
-        <RecipePage />
+        <RecipePage onNavigate={setCurrentView} onLogout={onLogout} />
         <MobileBottomNav activeView={currentView} onNavigate={setCurrentView} />
       </>
     );
@@ -44,7 +48,7 @@ export function ShelterDashboard() {
   if (currentView === 'routes') {
     return (
       <>
-        <PickupRoutePlanner />
+        <PickupRoutePlanner onNavigate={setCurrentView} onLogout={onLogout} />
         <MobileBottomNav activeView={currentView} onNavigate={setCurrentView} />
       </>
     );
@@ -79,7 +83,11 @@ export function ShelterDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardNavbar />
+      <DashboardNavbar 
+        activeTab="Dashboard" 
+        onNavigate={setCurrentView}
+        onLogout={onLogout}
+      />
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Hero Card */}

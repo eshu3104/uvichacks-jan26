@@ -10,12 +10,16 @@ import { DonorDashboard } from '@/app/components/donor-dashboard';
 function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'shelter' | 'donor'>('landing');
 
+  const handleLogout = () => {
+    setCurrentView('landing');
+  };
+
   if (currentView === 'shelter') {
-    return <ShelterDashboard />;
+    return <ShelterDashboard onLogout={handleLogout} />;
   }
 
   if (currentView === 'donor') {
-    return <DonorDashboard />;
+    return <DonorDashboard onLogout={handleLogout} />;
   }
 
   return (
@@ -183,15 +187,24 @@ function App() {
             </div>
             
             <div className="flex gap-8 text-sm">
-              <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">
+              <button 
+                onClick={() => {/* Could open about modal */}} 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
                 About
-              </a>
-              <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
+              </button>
+              <button 
+                onClick={() => {/* Could open contact modal */}} 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
                 Contact
-              </a>
-              <a href="#privacy" className="text-muted-foreground hover:text-primary transition-colors">
+              </button>
+              <button 
+                onClick={() => {/* Could open privacy modal */}} 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
                 Privacy
-              </a>
+              </button>
             </div>
           </div>
 

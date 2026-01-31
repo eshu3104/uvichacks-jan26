@@ -18,7 +18,12 @@ interface InventoryItem {
   addedDate: string;
 }
 
-export function InventoryPage() {
+interface InventoryPageProps {
+  onNavigate?: (view: 'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes') => void;
+  onLogout?: () => void;
+}
+
+export function InventoryPage({ onNavigate, onLogout }: InventoryPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -180,7 +185,11 @@ export function InventoryPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardNavbar />
+      <DashboardNavbar 
+        activeTab="Inventory" 
+        onNavigate={onNavigate}
+        onLogout={onLogout}
+      />
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Header */}

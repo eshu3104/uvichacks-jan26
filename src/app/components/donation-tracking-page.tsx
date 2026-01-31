@@ -21,7 +21,12 @@ interface Donation {
   contactPhone?: string;
 }
 
-export function DonationTrackingPage() {
+interface DonationTrackingPageProps {
+  onBack?: () => void;
+  onLogout?: () => void;
+}
+
+export function DonationTrackingPage({ onBack, onLogout }: DonationTrackingPageProps) {
   const [activeFilter, setActiveFilter] = useState<DonationStatus>('all');
 
   // Mock data - would come from API
@@ -122,7 +127,15 @@ export function DonationTrackingPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DonorNavbar />
+      <DonorNavbar 
+        activeTab="My Donations"
+        onTabChange={(tab) => {
+          if (tab === 'Home' && onBack) {
+            onBack();
+          }
+        }}
+        onLogout={onLogout}
+      />
 
       <div className="max-w-[1200px] mx-auto px-6 py-8">
         {/* Header */}

@@ -1,13 +1,34 @@
 import React, { useState } from 'react';
-import { Bell, Menu, X } from 'lucide-react';
+import { Bell, Menu, X, LogOut, User, Building } from 'lucide-react';
 import { BreadBridgeLogo } from '@/app/components/logo';
 
-export function DashboardNavbar() {
-  const [activeTab, setActiveTab] = useState('Dashboard');
+interface DashboardNavbarProps {
+  activeTab?: string;
+  onNavigate?: (view: 'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes') => void;
+  onLogout?: () => void;
+}
+
+const tabToView: Record<string, 'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes'> = {
+  'Dashboard': 'dashboard',
+  'Inventory': 'inventory',
+  'Donations': 'donations',
+  'Recipes': 'recipes',
+  'Routes': 'routes',
+};
+
+export function DashboardNavbar({ activeTab: externalActiveTab, onNavigate, onLogout }: DashboardNavbarProps) {
+  const [activeTab, setActiveTab] = useState(externalActiveTab || 'Dashboard');
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const tabs = ['Dashboard', 'Inventory', 'Donations', 'Recipes', 'Routes'];
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    if (onNavigate) {
+      onNavigate(tabToView[tab]);
+    }
+  };
 
   return (
     <nav className="bg-card border-b border-border sticky top-0 z-50">
@@ -40,7 +61,7 @@ export function DashboardNavbar() {
             {tabs.map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => handleTabClick(tab)}
                 className={`min-h-[44px] px-4 py-2 rounded-lg transition-all ${
                   activeTab === tab
                     ? 'bg-primary/10 text-primary font-medium'
@@ -74,16 +95,31 @@ export function DashboardNavbar() {
               {/* Dropdown Menu */}
               {showProfileMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-lg py-2 z-50" style={{ boxShadow: 'var(--shadow-soft)' }}>
-                  <a href="#profile" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                  <button 
+                    onClick={() => setShowProfileMenu(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors text-left"
+                  >
+                    <User className="w-4 h-4" />
                     Profile Settings
-                  </a>
-                  <a href="#shelter" className="block px-4 py-2 text-sm hover:bg-muted transition-colors">
+                  </button>
+                  <button 
+                    onClick={() => setShowProfileMenu(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors text-left"
+                  >
+                    <Building className="w-4 h-4" />
                     Shelter Info
-                  </a>
+                  </button>
                   <hr className="my-2 border-border" />
-                  <a href="#logout" className="block px-4 py-2 text-sm text-destructive hover:bg-muted transition-colors">
+                  <button 
+                    onClick={() => {
+                      setShowProfileMenu(false);
+                      if (onLogout) onLogout();
+                    }}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-destructive hover:bg-muted transition-colors text-left"
+                  >
+                    <LogOut className="w-4 h-4" />
                     Sign Out
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -98,7 +134,7 @@ export function DashboardNavbar() {
                 <button
                   key={tab}
                   onClick={() => {
-                    setActiveTab(tab);
+                    handleTabClick(tab);
                     setShowMobileMenu(false);
                   }}
                   className={`min-h-[44px] px-4 py-3 rounded-lg transition-all text-left ${

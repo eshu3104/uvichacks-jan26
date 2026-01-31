@@ -22,7 +22,12 @@ interface Donation {
   photos?: string[];
 }
 
-export function AvailableDonationsPage() {
+interface AvailableDonationsPageProps {
+  onNavigate?: (view: 'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes') => void;
+  onLogout?: () => void;
+}
+
+export function AvailableDonationsPage({ onNavigate, onLogout }: AvailableDonationsPageProps) {
   const [selectedDonation, setSelectedDonation] = useState<Donation | null>(null);
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [maxDistance, setMaxDistance] = useState(10);
@@ -167,7 +172,11 @@ export function AvailableDonationsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardNavbar />
+      <DashboardNavbar 
+        activeTab="Donations" 
+        onNavigate={onNavigate}
+        onLogout={onLogout}
+      />
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Header */}

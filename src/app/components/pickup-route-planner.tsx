@@ -16,7 +16,12 @@ interface Pickup {
   selected: boolean;
 }
 
-export function PickupRoutePlanner() {
+interface PickupRoutePlannerProps {
+  onNavigate?: (view: 'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes') => void;
+  onLogout?: () => void;
+}
+
+export function PickupRoutePlanner({ onNavigate, onLogout }: PickupRoutePlannerProps) {
   const [pickups, setPickups] = useState<Pickup[]>([
     {
       id: '1',
@@ -150,7 +155,11 @@ export function PickupRoutePlanner() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardNavbar />
+      <DashboardNavbar 
+        activeTab="Routes" 
+        onNavigate={onNavigate}
+        onLogout={onLogout}
+      />
 
       <div className="max-w-[1600px] mx-auto px-6 py-8">
         {/* Header */}

@@ -21,7 +21,12 @@ interface Recipe {
   usesExpiringItems: boolean;
 }
 
-export function RecipePage() {
+interface RecipePageProps {
+  onNavigate?: (view: 'dashboard' | 'donations' | 'inventory' | 'recipes' | 'routes') => void;
+  onLogout?: () => void;
+}
+
+export function RecipePage({ onNavigate, onLogout }: RecipePageProps) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [showOnlyAvailable, setShowOnlyAvailable] = useState(false);
   const [mealTypeFilter, setMealTypeFilter] = useState<string>('all');
@@ -251,7 +256,11 @@ export function RecipePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardNavbar />
+      <DashboardNavbar 
+        activeTab="Recipes" 
+        onNavigate={onNavigate}
+        onLogout={onLogout}
+      />
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Header */}

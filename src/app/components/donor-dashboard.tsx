@@ -8,12 +8,16 @@ import { RecentDonationsTable } from '@/app/components/recent-donations-table';
 import { DonationForm } from '@/app/components/donation-form';
 import { DonationTrackingPage } from '@/app/components/donation-tracking-page';
 
-export function DonorDashboard() {
+interface DonorDashboardProps {
+  onLogout?: () => void;
+}
+
+export function DonorDashboard({ onLogout }: DonorDashboardProps) {
   const [showDonationForm, setShowDonationForm] = useState(false);
   const [currentView, setCurrentView] = useState<'home' | 'tracking'>('home');
 
   if (currentView === 'tracking') {
-    return <DonationTrackingPage />;
+    return <DonationTrackingPage onBack={() => setCurrentView('home')} onLogout={onLogout} />;
   }
 
   const recentDonations = [
@@ -52,10 +56,13 @@ export function DonorDashboard() {
       <DonorNavbar 
         activeTab="Home"
         onTabChange={(tab) => {
-          if (tab === 'My Donations') {
+          if (tab === 'My Donations' || tab === 'Track Pickups') {
             setCurrentView('tracking');
+          } else if (tab === 'Home') {
+            setCurrentView('home');
           }
         }}
+        onLogout={onLogout}
       />
 
       <div className="max-w-[1400px] mx-auto px-6 py-8">
