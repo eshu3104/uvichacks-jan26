@@ -8,8 +8,8 @@ A web platform that connects food donors (restaurants, grocery stores, individua
 
 ## The Problem
 
-- 58% of food produced in Canada is wasted annually
-- 5.8 million Canadians face food insecurity
+- 46.5% of food produced in Canada is wasted annually
+- 10 million Canadians face food insecurity
 - No efficient connection exists between surplus food and those who need it
 
 ## Our Solution
