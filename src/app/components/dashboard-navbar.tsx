@@ -56,12 +56,15 @@ export function DashboardNavbar({ activeTab: externalActiveTab, onNavigate, onLo
               )}
             </button>
 
-            <div className="flex items-center gap-2">
+            <button 
+              onClick={onLogout}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
               <BreadBridgeLogo className="w-8 h-8" />
               <span className="text-lg font-medium hidden sm:inline" style={{ fontFamily: 'DM Serif Display, Georgia, serif' }}>
                 FoodBridge
               </span>
-            </div>
+            </button>
           </div>
 
           {/* Desktop Navigation Tabs */}

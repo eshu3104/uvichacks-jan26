@@ -210,7 +210,7 @@ function App() {
 
           <div className="text-center space-y-2">
             <p className="text-foreground/70">
-              Made with ♥ for UVICHacks 2025
+              Made with ♥ for UVICHacks 2026
             </p>
             <p className="text-sm text-muted-foreground">
               FoodBridge is an intermediary platform. All food safety responsibilities remain with donors.

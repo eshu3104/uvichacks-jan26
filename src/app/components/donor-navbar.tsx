@@ -35,12 +35,15 @@ export function DonorNavbar({ activeTab = 'Home', onTabChange, onLogout }: Donor
         <div className="flex items-center justify-between">
           {/* Logo and Navigation */}
           <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2">
+            <button 
+              onClick={onLogout}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
               <BreadBridgeLogo className="w-8 h-8" />
               <span className="text-lg font-medium" style={{ fontFamily: 'DM Serif Display, Georgia, serif' }}>
                 FoodBridge
               </span>
-            </div>
+            </button>
 
             {/* Navigation Tabs */}
             <div className="hidden md:flex gap-1">
